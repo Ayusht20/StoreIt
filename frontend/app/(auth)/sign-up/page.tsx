@@ -1,15 +1,9 @@
 import React from 'react'
-
+import AuthForm from '@/components/AuthForm';
 const SignUp = () => {
   return (
     <div>
-      Sign up!
-            <form action="">
-        Username:<input type="text" /><br />
-        Email: <input type="email" name="" id="" /><br />
-        password:<input type="password" name="" id="" /><br />
-        <input type="submit" value="Register!"/>
-      </form>
+<AuthForm type="sign-up"/>
     </div>
   )
 }
