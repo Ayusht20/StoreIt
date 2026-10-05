@@ -1,7 +1,8 @@
+"use server";
 import { Client, Databases, Account, Storage, Avatars } from "node-appwrite";
 import { appwriteConfig } from "./config";
 import { cookies } from "next/headers";
-import { Avatar } from "radix-ui";
+
 export const createSessionClient = async ()=>
 {
 const client=new Client()
