@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-// import { createAccount } from "@/lib/actions/user.actions"; // your backend call
+import {createAccount} from "@/lib/actions/user.actions"; // your backend call
 
 type FormType = "sign-in" | "sign-up";
 
@@ -57,17 +57,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
     setErrorMessage("");
 
     try {
-      // Replace with your real backend call, for example:
-      // const user =
-      //   type === "sign-up"
-      //     ? await createAccount({
-      //         fullName: values.fullName || "",
-      //         email: values.email,
-      //       })
-      //     : await signInUser({ email: values.email });
-      // setAccountId(user.accountId);
-
-      console.log(values);
+      const user =await createAccount({
+        fullName:values.fullName||"",
+        email:values.email
+      });
+      setAccountId(user.accountId);
     } catch (error) {
       setErrorMessage(
         type === "sign-up"
