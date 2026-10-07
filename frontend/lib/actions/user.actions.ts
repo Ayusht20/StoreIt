@@ -3,6 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
+import { parseStringfy } from "../utils";
 
 
 const getUserByEmail=async(email:string)=>
@@ -39,8 +40,29 @@ try {
     handleError(error,"Failed to send email OTP");
 }
 }
-const createAccount= async({fullName,email}:{fullName:string;email:string})=>
+export const createAccount= async({fullName,email}:{fullName:string;email:string})=>
 {
     const existingUser =await getUserByEmail(email);
     const accountId =await sendEmailOtp({email});
+
+    if(!accountId) throw new Error("Failed to send an OTP!");
+
+    if(!existingUser)
+    {
+        const {databases} =await createAdminClient();
+
+        await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.usersCollectionId,
+            ID.unique(),
+            {
+                fullName,
+                email,
+                avatar:"https://tse3.mm.bing.net/th/id/OIP.VTn0NAxal8BSB5W3ZTSdUAHaHT?r=0&pid=Api&h=220&P=0",
+                accountId
+            },
+        )
+    }
+
+    return parseStringfy({accountId});
 }
