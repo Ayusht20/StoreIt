@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {createAccount} from "@/lib/actions/user.actions"; // your backend call
+import OtpModal from "./OtpModal";
 
 type FormType = "sign-in" | "sign-up";
 
@@ -166,9 +167,9 @@ const AuthForm = ({ type }: { type: FormType }) => {
       </Form>
 
       {/* OTP verification: render your OTP modal here once accountId is set */}
-      {/* {accountId && (
+      {accountId && (
         <OtpModal email={form.getValues("email")} accountId={accountId} />
-      )} */}
+      )}
     </>
   );
 };
