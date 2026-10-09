@@ -10,15 +10,46 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+import { useEffect, useMemo, useState } from "react";
+
 import { Button } from "@/components/ui/button"
 
 const OtpModal = () => {
+  const [isOpen,setIsOpen]=useState(true);
+  const [password,setPassword]=useState("");
+  const [isLoading,setIsLoading]=useState(false);
+
+  const handleSubmit=async (e:React.MouseEvent<HTMLButtonElement>)=>
+  {
+e.preventDefault();
+setIsLoading(true);
+
+try {
+  
+
+} catch (error) {
+  console.log("Failed to verify OTP! ",error);
+}
+
+ 
+setIsLoading(false);
+  }
+  const handleResendOtp=async()=>
+  {
+
+  }
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      {/* <AlertDialogTrigger asChild>
         <Button variant="outline">Show Dialog</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
+      </AlertDialogTrigger> */}
+      <AlertDialogContent className="shad-alert-dialog">
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -26,6 +57,19 @@ const OtpModal = () => {
             from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
+        <InputOTP maxLength={6}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+  </InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup>
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction>Continue</AlertDialogAction>
