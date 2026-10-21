@@ -80,7 +80,7 @@ export const verifySecret = async ({accountId , password}:{accountId:string ,pas
             secure:true,
         })
     } catch (error) {
-        
+        handleError(error,"Failed to verify OTP!")
     }
 
 }
