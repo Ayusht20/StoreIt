@@ -78,7 +78,9 @@ export const verifySecret = async ({accountId , password}:{accountId:string ,pas
             httpOnly:true,
             sameSite:'strict',
             secure:true,
-        })
+        });
+
+        return parseStringfy({sessionId :session.$id});
     } catch (error) {
         handleError(error,"Failed to verify OTP!")
     }

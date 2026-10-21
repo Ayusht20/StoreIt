@@ -1,3 +1,4 @@
+"use client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,8 +21,11 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button"
 import Image from "next/image";
+import { verifySecret } from "@/lib/actions/user.actions";
+import { useRouter } from "next/navigation";
 
 const OtpModal = ({accountId,email}:{accountId:string,email:string}) => {
+  const router=useRouter();
   const [isOpen,setIsOpen]=useState(true);
   const [password,setPassword]=useState("");
   const [isLoading,setIsLoading]=useState(false);
@@ -32,7 +36,12 @@ setIsLoading(true);
 
 try {
   
+const sessionId=await verifySecret({accountId,password});
 
+if(sessionId)
+{
+   router.push("/");
+}
 } catch (error) {
   console.log("Failed to verify OTP! ",error);
 }
