@@ -21,7 +21,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button"
 import Image from "next/image";
-import { verifySecret } from "@/lib/actions/user.actions";
+import { sendEmailOtp, verifySecret } from "@/lib/actions/user.actions";
 import { useRouter } from "next/navigation";
 
 const OtpModal = ({accountId,email}:{accountId:string,email:string}) => {
@@ -51,7 +51,7 @@ setIsLoading(false);
   }
   const handleResendOtp=async()=>
   {
-
+await sendEmailOtp({email});
   }
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>

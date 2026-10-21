@@ -29,7 +29,7 @@ console.log(error,message);
 throw error;
 
 }
-const sendEmailOtp=async({email}:{email:string})=>
+export const sendEmailOtp=async({email}:{email:string})=>
 {
 const {account}=await createAdminClient();
 
@@ -82,7 +82,8 @@ export const verifySecret = async ({accountId , password}:{accountId:string ,pas
 
         return parseStringfy({sessionId :session.$id});
     } catch (error) {
-        handleError(error,"Failed to verify OTP!")
+        handleError(error,"Failed to verify OTP!");
     }
 
 }
+
