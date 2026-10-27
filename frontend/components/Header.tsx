@@ -1,11 +1,19 @@
+import Image from 'next/image'
 import React from 'react'
 
 const Header = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <header className='header'>
+Search
+<div className='header-wrapper'>
+FileUploader
+
+<form >
+<button type="submit" className='sign-out-button'>
+<Image src="/assets/icons/logout.svg" alt="Logo!" width={24} height={24} className='w-6'/>
+</button>
+</form>
+</div>
+  </header>
 }
 
 export default Header
