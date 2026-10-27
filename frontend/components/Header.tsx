@@ -1,12 +1,13 @@
 import Image from 'next/image'
 import React from 'react'
 import Search from './Search'
+import FileUploader from './FileUploader'
 
 const Header = () => {
   return <header className='header'>
 <Search/>
 <div className='header-wrapper'>
-FileUploader
+<FileUploader/>
 
 <form >
 <button type="submit" className='sign-out-button'>
