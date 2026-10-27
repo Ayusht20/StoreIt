@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import React from 'react'
+import Search from './Search'
 
 const Header = () => {
   return <header className='header'>
-Search
+<Search/>
 <div className='header-wrapper'>
 FileUploader
 
