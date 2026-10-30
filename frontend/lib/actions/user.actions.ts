@@ -5,6 +5,7 @@ import { createAdminClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { parseStringfy } from "../utils";
 import { cookies } from "next/headers";
+import { avatarPlaceholderUrl } from "@/constants";
 
 
 const getUserByEmail=async(email:string)=>
@@ -59,7 +60,7 @@ export const createAccount= async({fullName,email}:{fullName:string;email:string
             {
                 fullName,
                 email,
-                avatar:"https://tse3.mm.bing.net/th/id/OIP.VTn0NAxal8BSB5W3ZTSdUAHaHT?r=0&pid=Api&h=220&P=0",
+                avatar:avatarPlaceholderUrl,
                 accountId
             },
         )

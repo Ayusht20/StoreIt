@@ -80,5 +80,5 @@ export const sortTypes = [
     value: 'size-asc',
   },
 ];
-
+export const avatarPlaceholderUrl="https://tse3.mm.bing.net/th/id/OIP.VTn0NAxal8BSB5W3ZTSdUAHaHT?r=0&pid=Api&h=220&P=0";
 export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB

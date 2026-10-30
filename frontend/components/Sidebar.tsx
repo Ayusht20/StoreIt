@@ -3,12 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { navItems } from "@/constants";
+import { avatarPlaceholderUrl, navItems } from "@/constants";
 import { cn } from "@/lib/utils"; // Import cn utility
 
 const Sidebar = () => {
   const pathname = usePathname();
-
   return (
     <aside className="sidebar">
       <Link href="/">
@@ -60,6 +59,12 @@ const Sidebar = () => {
           })}
         </ul>
       </nav>
+      <Image src="/assets/images/files-2.png" alt="Logo" height={506} width={418} className="w-full"/>
+      <div className="sidebar-user-info">
+        
+      <Image src={avatarPlaceholderUrl} alt="Avtar" height={44} width={44} className="sidebar-user-avatar"/>
+
+      </div>
     </aside>
   );
 };
