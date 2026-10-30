@@ -1,35 +1,67 @@
 "use client";
-import Link from "next/link"
-import Image from 'next/image'
-import { navItems } from "@/constants";
+
+import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { navItems } from "@/constants";
+import { cn } from "@/lib/utils"; // Import cn utility
+
 const Sidebar = () => {
-  const pathName=usePathname();
+  const pathname = usePathname();
+
   return (
-    <aside className='sidebar'>
+    <aside className="sidebar">
       <Link href="/">
-<Image alt="logo" width={160} height={50} src="/assets/icons/logo-full-brand.svg" className='hidden h-auto lg:block'/>
-<Image alt="logo" width={52} height={52} src="/assets/icons/logo-brand.svg" className=' lg:hidden'/>
- 
+        <Image
+          alt="logo"
+          width={160}
+          height={50}
+          src="/assets/icons/logo-full-brand.svg"
+          className="hidden h-auto lg:block"
+          priority
+        />
+        <Image
+          alt="logo"
+          width={52}
+          height={52}
+          src="/assets/icons/logo-brand.svg"
+          className="lg:hidden"
+          priority
+        />
       </Link>
 
-      <nav className='sidebar-nav'>
-<ul className='flex flex-1 flex-col gap-6 '>
-  {
-    navItems.map(
-      (item)=>
-      {
-const active=pathname===item.url;
-return <Link/>
-      }
-    )
+      <nav className="sidebar-nav">
+        <ul className="flex flex-1 flex-col gap-6">
+          {navItems.map(({ url, name, icon }) => {
+            const isActive = pathname === url;
 
-  }
-  
-   </ul>
+            return (
+              <li key={url}>
+                <Link
+                  href={url}
+                  className={cn(
+                    "flex items-center gap-4 rounded-full p-3 transition-colors",
+                    isActive
+                      ? "bg-brand text-white"
+                      : "text-gray-600 hover:bg-gray-100"
+                  )}
+                >
+                  <Image
+                    src={icon}
+                    alt={name}
+                    width={24}
+                    height={24}
+                    className={cn("nav-icon", isActive && "nav-icon-active")}
+                  />
+                  <p className="hidden lg:block">{name}</p>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
     </aside>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
