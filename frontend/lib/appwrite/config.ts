@@ -6,5 +6,5 @@ export const appwriteConfig = {
   filesCollectionId: process.env.NEXT_PUBLIC_APPWRITE_FILES_COLLECTION!,
   bucketId: process.env.NEXT_PUBLIC_APPWRITE_BUCKET!,
   // Fallback to both names in case of mismatch:
-  secretKey: (process.env.NEXT_APPWRITE_KEY || process.env.APPWRITE_API_KEY)!,
+  secretKey: process.env.NEXT_APPWRITE_KEY!,
 };
