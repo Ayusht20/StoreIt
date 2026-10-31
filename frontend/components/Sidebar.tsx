@@ -6,7 +6,14 @@ import { usePathname } from "next/navigation";
 import { avatarPlaceholderUrl, navItems } from "@/constants";
 import { cn } from "@/lib/utils"; // Import cn utility
 
-const Sidebar = () => {
+interface Props
+{
+  fullName:string,
+  avatar:string,
+  email:string;
+}
+
+const Sidebar = ({fullName,avatar,email}:Props) => {
   const pathname = usePathname();
   return (
     <aside className="sidebar">
@@ -62,8 +69,11 @@ const Sidebar = () => {
       <Image src="/assets/images/files-2.png" alt="Logo" height={506} width={418} className="w-full"/>
       <div className="sidebar-user-info">
         
-      <Image src={avatarPlaceholderUrl} alt="Avtar" height={44} width={44} className="sidebar-user-avatar"/>
-
+      <Image src={avatar} alt="Avtar" height={44} width={44} className="sidebar-user-avatar "/>
+<div className="hidden lg:block">
+<p className="subtitle-2 capitalize">{fullName}</p>
+<p className="caption">{email}</p>
+</div>
       </div>
     </aside>
   );
