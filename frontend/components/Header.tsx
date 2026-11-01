@@ -1,4 +1,3 @@
-"use client"
 import Image from 'next/image'
 import Search from './Search'
 import FileUploader from './FileUploader'
@@ -9,12 +8,16 @@ const Header = () => {
 <Search/>
 <div className='header-wrapper'>
 <FileUploader/>
-
-<button type="submit" onClick={async ()=>
-  await logoutUser()
-} className='sign-out-button'>
+<form action={async()=>
+  {
+    "use server";
+    await logoutUser();
+  }
+}>
+<button type="submit" className='sign-out-button'>
 <Image src="/assets/icons/logout.svg" alt="Logo!" width={24} height={24} className='w-6'/>
 </button>
+</form>
 </div>
   </header>
 }
