@@ -77,11 +77,15 @@ const MobileNavigation = ({fullName,avatar,email}:Props) => {
       />
       <div className="flex flex-col justify-between gap-5 pb-5">
         <FileUploader/>
-        <button type="submit" className='mobile-sign-out-button' onClick={async()=>
-          {
-            await logoutUser();
-          }
-        } >
+        <button type="submit" className='mobile-sign-out-button' 
+          onClick={async () => {
+    try {
+      await logoutUser();
+      setOpen(false);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } 
+  }} >
         <Image src="/assets/icons/logout.svg" alt="Logo!" width={24} height={24} className='w-6'/>
         <p>Logout</p>
         </button>
