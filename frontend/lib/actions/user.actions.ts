@@ -109,15 +109,18 @@ export const getCurrentUser=async()=>
 
 import { redirect } from "next/navigation";
 
+
 export async function logoutUser() {
   const cookieStore = await cookies();
 
   try {
     const { account } = await createSessionClient();
-    
+
     await account.deleteSession("current");
+
   } catch (error) {
-    console.error("Failed to delete Appwrite session:", error);
+    console.error("Logout error:", error);
+
   } finally {
     cookieStore.delete("appwrite-session");
   }
