@@ -128,22 +128,18 @@ export async function logoutUser() {
   redirect("/sign-in");
 }
 
-export const signInUser = async({email}:{email:string})=>
-{
-try
-{
-const existingUser=await getUserByEmail(email);
-if(existingUser)
-{
-    await sendEmailOtp({email});
+export const signInUser = async ({ email }: { email: string }) => {
+  try {
+    const existingUser = await getUserByEmail(email);
+
+    if (existingUser) {
+      await sendEmailOtp({ email });
+      return parseStringfy({ accountId: existingUser.accountId });
+    }
+
+    return parseStringfy({ accountId: null, error: "User not found" });
+  } catch (error) {
     
-}
-
-}
-catch(error)
-{
-handleError(error,"Failed to sign in the user !!");
-}
-
-
-}
+    handleError(error, "Failed to sign in the user !!");
+  }
+};
