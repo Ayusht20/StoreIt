@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {createAccount} from "@/lib/actions/user.actions"; // your backend call
+import { createAccount, signInUser } from "@/lib/actions/user.actions";
 import OtpModal from "./OtpModal";
 
 type FormType = "sign-in" | "sign-up";
@@ -58,11 +58,24 @@ const AuthForm = ({ type }: { type: FormType }) => {
     setErrorMessage("");
 
     try {
-      const user =await createAccount({
-        fullName:values.fullName||"",
-        email:values.email
-      });
-      setAccountId(user.accountId);
+      const user =
+        type === "sign-up"
+          ? await createAccount({
+              fullName: values.fullName || "",
+              email: values.email,
+            })
+          : await signInUser({ email: values.email });
+
+      if (user?.error) {
+        setErrorMessage(user.error);
+        return;
+      }
+
+      if (user?.accountId) {
+        setAccountId(user.accountId);
+      } else {
+        setErrorMessage("An unexpected error occurred. Please try again.");
+      }
     } catch (error) {
       setErrorMessage(
         type === "sign-up"
@@ -166,9 +179,8 @@ const AuthForm = ({ type }: { type: FormType }) => {
         </form>
       </Form>
 
-      {/* OTP verification: render your OTP modal here once accountId is set */}
       {accountId && (
-        <OtpModal accountId={accountId} email={form.getValues("email")}  />
+        <OtpModal accountId={accountId} email={form.getValues("email")} />
       )}
     </>
   );
