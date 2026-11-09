@@ -2,8 +2,10 @@
 
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
-import {MAX_FILE_SIZE} from "@/constants/index"
+import { MAX_FILE_SIZE } from "@/constants/index";
+
 interface Props {
   ownerId?: string;
   accountId?: string;
@@ -17,28 +19,64 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
     setFiles(acceptedFiles);
   }, []);
 
-  const { getRootProps, getInputProps,isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    maxSize:MAX_FILE_SIZE
+    maxSize: MAX_FILE_SIZE,
   });
 
-return (
-    <div
-      {...getRootProps()}
-      className={cn(
-        "cursor-pointer border-2 border-dashed rounded-xl p-6 transition-colors",
-        isDragActive ? "border-brand bg-brand/5" : "border-light-400",
-        className
-      )}
-    >
+  const handleRemoveFile = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+    fileName: string
+  ) => {
+    e.stopPropagation();
+    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+  };
+
+  return (
+    <div {...getRootProps()} className={cn("cursor-pointer", className)}>
       <input {...getInputProps()} />
-      <p className="body-2 text-center text-light-100">
-        {isDragActive
-          ? "Drop the files here..."
-          : "Drag 'n' drop some files here, or click to select files"}
-      </p>
+      <div
+        className={cn(
+          "uploader-box border-2 border-dashed rounded-xl p-6 transition-colors",
+          isDragActive ? "border-brand bg-brand/5" : "border-light-400"
+        )}
+      >
+        <p className="body-2 text-center text-light-100">
+          {isDragActive
+            ? "Drop the files here..."
+            : "Drag 'n' drop some files here, or click to select files"}
+        </p>
+      </div>
+
+      {files.length > 0 && (
+        <ul className="uploader-preview-list mt-4 space-y-2">
+          <h4 className="h4 text-light-100">Files</h4>
+
+          {files.map((file, index) => (
+            <li
+              key={`${file.name}-${index}`}
+              className="uploader-preview-item flex items-center justify-between p-2 rounded-lg bg-light-300"
+            >
+              <div className="flex items-center gap-3">
+                <span className="body-2 text-light-100 max-w-[200px] truncate">
+                  {file.name}
+                </span>
+              </div>
+
+              <Image
+                src="/assets/icons/remove.svg"
+                width={24}
+                height={24}
+                alt="Remove"
+                onClick={(e) => handleRemoveFile(e, file.name)}
+                className="cursor-pointer"
+              />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
-  )
+  );
 };
 
 export default FileUploader;
