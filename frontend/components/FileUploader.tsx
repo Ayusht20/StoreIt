@@ -3,8 +3,9 @@
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, getFileType } from "@/lib/utils";
 import { MAX_FILE_SIZE } from "@/constants/index";
+import Thumbnail from "@/components/Thumbnail";
 
 interface Props {
   ownerId?: string;
@@ -52,27 +53,45 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
         <ul className="uploader-preview-list mt-4 space-y-2">
           <h4 className="h4 text-light-100">Files</h4>
 
-          {files.map((file, index) => (
-            <li
-              key={`${file.name}-${index}`}
-              className="uploader-preview-item flex items-center justify-between p-2 rounded-lg bg-light-300"
-            >
-              <div className="flex items-center gap-3">
-                <span className="body-2 text-light-100 max-w-[200px] truncate">
-                  {file.name}
-                </span>
-              </div>
+          {files.map((file, index) => {
+            const { type, extension } = getFileType(file.name);
 
-              <Image
-                src="/assets/icons/remove.svg"
-                width={24}
-                height={24}
-                alt="Remove"
-                onClick={(e) => handleRemoveFile(e, file.name)}
-                className="cursor-pointer"
-              />
-            </li>
-          ))}
+            return (
+              <li
+                key={`${file.name}-${index}`}
+                className="uploader-preview-item flex items-center justify-between p-2 rounded-lg bg-light-300"
+              >
+                <div className="flex items-center gap-3">
+                  <Thumbnail
+                    type={type}
+                    extension={extension}
+                    url={URL.createObjectURL(file)}
+                  />
+
+                  <div className="preview-item-name">
+                    <p className="body-2 text-light-100 max-w-[200px] truncate">
+                      {file.name}
+                    </p>
+                    <Image
+                      src="/assets/icons/file-loader.gif"
+                      width={80}
+                      height={26}
+                      alt="Uploading..."
+                    />
+                  </div>
+                </div>
+
+                <Image
+                  src="/assets/icons/remove.svg"
+                  width={24}
+                  height={24}
+                  alt="Remove"
+                  onClick={(e) => handleRemoveFile(e, file.name)}
+                  className="cursor-pointer"
+                />
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
