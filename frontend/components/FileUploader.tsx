@@ -6,6 +6,7 @@ import Image from "next/image";
 import { cn, getFileType } from "@/lib/utils";
 import { MAX_FILE_SIZE } from "@/constants/index";
 import Thumbnail from "@/components/Thumbnail";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   ownerId?: string;
@@ -36,18 +37,26 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
   return (
     <div {...getRootProps()} className={cn("cursor-pointer", className)}>
       <input {...getInputProps()} />
-      <div
-        className={cn(
-          "uploader-box border-2 border-dashed rounded-xl p-6 transition-colors",
-          isDragActive ? "border-brand bg-brand/5" : "border-light-400"
-        )}
-      >
-        <p className="body-2 text-center text-light-100">
-          {isDragActive
-            ? "Drop the files here..."
-            : "Drag 'n' drop some files here, or click to select files"}
+
+      <Button type="button" className={cn("uploader-button", className)}>
+        <Image
+          src="/assets/icons/upload.svg"
+          alt="upload"
+          width={24}
+          height={24}
+        />
+        <p>Upload</p>
+      </Button>
+
+      {isDragActive ? (
+        <p className="body-2 text-center text-light-100 mt-2">
+          Drop the files here...
         </p>
-      </div>
+      ) : (
+        <p className="body-2 text-center text-light-100 mt-2">
+          Drag &apos;n&apos; drop some files here, or click to select files
+        </p>
+      )}
 
       {files.length > 0 && (
         <ul className="uploader-preview-list mt-4 space-y-2">
