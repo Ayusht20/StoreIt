@@ -9,10 +9,11 @@ import { MAX_FILE_SIZE } from "@/constants/index";
 import Thumbnail from "@/components/Thumbnail";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { uploadFile } from "@/lib/actions/file.actions";
 
 interface Props {
-  ownerId?: string;
-  accountId?: string;
+  ownerId: string;
+  accountId: string;
   className?: string;
 }
 
@@ -25,7 +26,7 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
     async (acceptedFiles: File[]) => {
       setFiles(acceptedFiles);
 
-      acceptedFiles.forEach((file) => {
+      const uploadPromises = acceptedFiles.map(async (file) => {
         if (file.size > MAX_FILE_SIZE) {
           setFiles((prevFiles) =>
             prevFiles.filter((f) => f.name !== file.name)
@@ -41,9 +42,21 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
             className: "error-toast",
           });
         }
+
+        return uploadFile({ file, ownerId, accountId, path }).then(
+          (uploadedFile) => {
+            if (uploadedFile) {
+              setFiles((prevFiles) =>
+                prevFiles.filter((f) => f.name !== file.name)
+              );
+            }
+          }
+        );
       });
+
+      await Promise.all(uploadPromises);
     },
-    [toast]
+    [ownerId, accountId, path, toast]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
