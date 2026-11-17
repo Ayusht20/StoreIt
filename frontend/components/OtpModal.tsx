@@ -35,8 +35,8 @@ const OtpModal = ({ accountId, email }: { accountId: string; email: string }) =>
     return () => clearInterval(interval);
   }, [resendTimer]);
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const verifyOtp = async () => {
+    if (password.length < 6 || isLoading) return;
     setIsLoading(true);
     setErrorMessage("");
 
@@ -55,6 +55,11 @@ const OtpModal = ({ accountId, email }: { accountId: string; email: string }) =>
     }
   };
 
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    await verifyOtp();
+  };
+
   const handleResendOtp = async () => {
     setPassword("");
     setErrorMessage("");
@@ -64,7 +69,15 @@ const OtpModal = ({ accountId, email }: { accountId: string; email: string }) =>
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent className="w-full max-w-[480px] bg-white rounded-[24px] p-8 shadow-2xl space-y-6">
+      <AlertDialogContent
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            verifyOtp();
+          }
+        }}
+        className="w-full max-w-[480px] bg-white rounded-[24px] p-8 shadow-2xl space-y-6"
+      >
         <AlertDialogHeader className="flex flex-col items-center justify-center gap-2 relative">
           <AlertDialogTitle className="text-2xl font-bold text-center text-[#333F4E] w-full">
             Enter your OTP!
@@ -88,7 +101,14 @@ const OtpModal = ({ accountId, email }: { accountId: string; email: string }) =>
         </AlertDialogHeader>
 
         <div className="flex justify-center w-full my-4">
-          <InputOTP maxLength={6} value={password} onChange={setPassword}>
+          <InputOTP
+            maxLength={6}
+            value={password}
+            onChange={(value) => {
+              setPassword(value);
+              if (errorMessage) setErrorMessage("");
+            }}
+          >
             <InputOTPGroup className="flex justify-center gap-2 sm:gap-3 w-full">
               {Array.from({ length: 6 }).map((_, index) => (
                 <InputOTPSlot
